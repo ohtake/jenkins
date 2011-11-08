@@ -1799,16 +1799,13 @@ function refreshPart(id,url) {
 
                 Behaviour.applySubtree(node);
                 layoutUpdateCallback.call();
-
-                if(isRunAsTest) return;
-                refreshPart(id,url);
             }
         });
     };
     // if run as test, just do it once and do it now to make sure it's working,
     // but don't repeat.
     if(isRunAsTest) f();
-    else    window.setTimeout(f, 5000);
+    else    window.setInterval(f, 5000);
 }
 
 
