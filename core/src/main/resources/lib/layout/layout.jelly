@@ -126,6 +126,7 @@ THE SOFTWARE.
     <script src="${resURL}/scripts/bootstrap-button.js" type="text/javascript"/>
     <script src="${resURL}/scripts/bootstrap-dropdown.js" type="text/javascript"/>
     <script src="${resURL}/scripts/bootstrap-collapse.js" type="text/javascript"/>
+    <script src="${resURL}/scripts/bootstrap-scrollspy.js" type="text/javascript"/>
     <script src="${resURL}/scripts/behavior.js" type="text/javascript"/>
 
     <!-- we include our own prototype.js, so don't let stapler pull in another. -->
