@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
  * The mark itself will be removed from the stream.
  * 
  * @author Kohsuke Kawaguchi
- * @since 1.458
+ * @since 1.460
  */
 public abstract class MarkFindingOutputStream extends OutputStream {
     private final OutputStream base;

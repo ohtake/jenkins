@@ -19,7 +19,7 @@ import java.io.IOException;
  * Allows plugins to define exceptions to the CSRF protection filter.
  *
  * @author Kohsuke Kawaguchi
- * @since 1.446
+ * @since 1.448
  */
 public abstract class CrumbExclusion implements ExtensionPoint {
     /**
