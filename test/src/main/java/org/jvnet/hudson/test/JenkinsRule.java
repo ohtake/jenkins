@@ -1001,7 +1001,7 @@ public class JenkinsRule implements TestRule, RootAction {
         return r;
     }
 
-    /** Determines whether the specifed HTTP status code is generally "good" */
+    /** Determines whether the specified HTTP status code is generally "good" */
     public boolean isGoodHttpStatus(int status) {
         if ((400 <= status) && (status <= 417)) {
             return false;
@@ -1012,7 +1012,7 @@ public class JenkinsRule implements TestRule, RootAction {
         return true;
     }
 
-    /** Assert that the specifed page can be served with a "good" HTTP status,
+    /** Assert that the specified page can be served with a "good" HTTP status,
      * eg, the page is not missing and can be served without a server error
      * @param page
      */

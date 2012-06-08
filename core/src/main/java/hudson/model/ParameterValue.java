@@ -179,7 +179,7 @@ public abstract class ParameterValue implements Serializable {
      * Returns a {@link VariableResolver} so that other components like {@link Builder}s
      * can perform variable substitution to reflect parameter values into the build process.
      *
-     * <p.
+     * <p>
      * This is yet another means in which a {@link ParameterValue} can influence
      * a build.
      *
