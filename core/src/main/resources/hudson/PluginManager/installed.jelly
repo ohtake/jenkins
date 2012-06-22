@@ -30,6 +30,7 @@ THE SOFTWARE.
   <l:layout title="${%Update Center}" permission="${app.ADMINISTER}" norefresh="true">
     <st:include page="sidepanel.jelly"/>
     <l:main-panel>
+      <l:pageHeader title="${%Update Center}" />
       <local:tabBar page="installed" xmlns:local="/hudson/PluginManager" />
       <table id="plugins" class="sortable pane bigtable">
         <j:choose>
@@ -81,7 +82,7 @@ THE SOFTWARE.
                 </td>
                 <td class="center pane" id='unpin-${p.shortName}'>
                   <j:if test="${p.isPinned()}">
-                    <input type="button" onclick="unpin(this,'${p.shortName}')" value="${%Unpin}" class="yui-button" />
+                    <input type="button" onclick="unpin(this,'${p.shortName}')" value="${%Unpin}" class="btn" />
                     <a href="${%wiki.url}"><img style="vertical-align:top" src="${imagesURL}/16x16/help.png"/></a>
                   </j:if>
                 </td>

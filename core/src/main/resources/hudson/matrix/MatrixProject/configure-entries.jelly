@@ -34,6 +34,9 @@ THE SOFTWARE.
 
   <f:section title="${%Advanced Project Options}">
     <f:advanced>
+      <f:entry title="${%Display Name}" field="displayNameOrNull">
+        <f:textbox checkUrl="'${rootURL}/checkDisplayName?displayName='+encodeURIComponent(this.value)+'&amp;jobName='+encodeURIComponent('${it.name}')"/>
+      </f:entry>
       <p:config-quietPeriod />
       <p:config-retryCount />
       <p:config-blockWhenUpstreamBuilding />
@@ -48,10 +51,6 @@ THE SOFTWARE.
           <f:textbox name="childCustomWorkspace.directory" field="childCustomWorkspace"  value="${instance.hasChildCustomWorkspace()?instance.childCustomWorkspace:''}" />
         </f:entry>
       </f:optionalBlock>
-
-      <f:entry title="${%Display Name}" field="displayNameOrNull">
-         <f:textbox checkUrl="'${rootURL}/checkDisplayName?displayName='+encodeURIComponent(this.value)+'&amp;jobName='+encodeURIComponent('${it.name}')"/>
-      </f:entry>
     </f:advanced>
   </f:section>
 

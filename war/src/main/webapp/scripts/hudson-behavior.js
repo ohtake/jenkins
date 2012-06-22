@@ -407,27 +407,18 @@ function registerRegexpValidator(e,regexp,message) {
 }
 
 /**
- * Wraps a <button> into YUI button.
+ * Makes an element into a Bootstrap button.
  *
  * @param e
- *      button element
+ *      element (input, anchor or whatever)
  * @param onclick
  *      onclick handler
  */
 function makeButton(e,onclick) {
-    var h = e.onclick;
-    var clsName = e.className;
-    var n = e.name;
-    var btn = new YAHOO.widget.Button(e,{});
+    Element.addClassName(e,"btn");
     if(onclick!=null)
-        btn.addListener("click",onclick);
-    if(h!=null)
-        btn.addListener("click",h);
-    var be = btn.get("element");
-    Element.addClassName(be,clsName);
-    if(n!=null) // copy the name
-        be.setAttribute("name",n);
-    return btn;
+        Event.observe(e, "click", onclick);
+    return e;
 }
 
 /*
@@ -519,7 +510,7 @@ function sequencer(fs) {
 
 var jenkinsRules = {
     "BODY" : function() {
-        tooltip = new YAHOO.widget.Tooltip("tt", {context:[], zindex:999});
+        tooltip = new YAHOO.widget.Tooltip("tt", {context:[], zindex:1050*2+1}); // 1050 = @zindexModal in Bootstrap
     },
 
 // do the ones that extract innerHTML so that they can get their original HTML before
@@ -530,43 +521,23 @@ var jenkinsRules = {
         if(isInsideRemovable(e))    return;
 
         // components for the add button
-        var menu = document.createElement("SELECT");
-        var btns = findElementsBySelector(e,"INPUT.hetero-list-add"),
+        var btns = findElementsBySelector(e,".hetero-list-add"),
             btn = btns[btns.length-1]; // In case nested content also uses hetero-list
-        YAHOO.util.Dom.insertAfter(menu,btn);
+        var dropdown = btn.nextSibling;
 
         var prototypes = $(e.lastChild);
         while(!prototypes.hasClassName("prototypes"))
             prototypes = prototypes.previous();
         var insertionPoint = prototypes.previous();    // this is where the new item is inserted.
 
-        // extract templates
-        var templates = []; var i=0;
-        $(prototypes).childElements().each(function (n) {
-            var name = n.getAttribute("name");
-            var tooltip = n.getAttribute("tooltip");
-            var descriptorId = n.getAttribute("descriptorId");
-            menu.options[i] = new Option(n.getAttribute("title"),""+i);
-            templates.push({html:n.innerHTML, name:name, tooltip:tooltip,descriptorId:descriptorId});
-            i++;
-        });
-        Element.remove(prototypes);
-
-        var withDragDrop = initContainerDD(e);
-
-        var menuAlign = (btn.getAttribute("menualign")||"tl-bl");
-
-        var menuButton = new YAHOO.widget.Button(btn, { type: "menu", menu: menu, menualignment: menuAlign.split("-") });
-        menuButton.getMenu().clickEvent.subscribe(function(type,args,value) {
-            var item = args[1];
-            if (item.cfg.getProperty("disabled"))   return;
-            var t = templates[parseInt(item.value)];
-
+        var repeatableAddHandler = function() {
+            var menuItem = this;
+            if (Element.hasClassName(menuItem, "disabled")) return false;
             var nc = document.createElement("div");
             nc.className = "repeated-chunk";
-            nc.setAttribute("name",t.name);
-            nc.setAttribute("descriptorId",t.descriptorId);
-            nc.innerHTML = t.html;
+            nc.setAttribute("name", menuItem.getAttribute("data-name"));
+            nc.setAttribute("descriptorId", menuItem.getAttribute("data-descriptor-id"));
+            nc.innerHTML = menuItem.getAttribute("data-html");
             $(nc).setOpacity(0);
 
             var scroll = document.body.scrollTop;
@@ -605,13 +576,13 @@ var jenkinsRules = {
                     function o(did) {
                         if (Object.isElement(did))
                             did = did.getAttribute("descriptorId");
-                        for (var i=0; i<templates.length; i++)
-                            if (templates[i].descriptorId==did)
+                        for (var i=0; i<dropdown.children.length; i++)
+                            if (dropdown.children[i].children[0].getAttribute("data-descriptor-id")==did)
                                 return i;
                         return 0; // can't happen
                     }
 
-                    var bestPos = findBestPosition(t.descriptorId, current, o);
+                    var bestPos = findBestPosition(menuItem.getAttribute("data-descriptor-id"), current, o);
                     if (bestPos<current.length)
                         return current[bestPos];
                     else
@@ -629,17 +600,35 @@ var jenkinsRules = {
                 ensureVisible(nc);
                 layoutUpdateCallback.call();
             },true);
-        });
+            return false;
+        };
 
-        menuButton.getMenu().renderEvent.subscribe(function() {
-            // hook up tooltip for menu items
-            var items = menuButton.getMenu().getItems();
-            for(i=0; i<items.length; i++) {
-                var t = templates[i].tooltip;
-                if(t!=null)
-                    applyTooltip(items[i].element,t);
+        var menuAlign = (btn.getAttribute("data-menualign")||"tl-bl");
+        // TODO Bootstrap dropdown does not support YUI menualign
+        if(menuAlign[0] == "b" && menuAlign[3] == "t") { // b?-t?
+            dropdown.style.top = "auto";
+            dropdown.style.bottom = "100%";
+        }
+
+        // extract templates
+        $(prototypes).childElements().each(function (n) {
+            var anchor = document.createElement("A");
+            anchor.href = "#";
+            anchor.innerText = n.getAttribute("title");
+            anchor.setAttribute("data-name", n.getAttribute("name"));
+            anchor.setAttribute("data-html", n.innerHTML);
+            anchor.setAttribute("data-descriptor-id", n.getAttribute("descriptorId"));
+            if(n.getAttribute("tooltip")) {
+                applyTooltip(anchor,n.getAttribute("tooltip"));
             }
+            anchor.onclick = repeatableAddHandler;
+            var li = document.createElement("LI");
+            li.insertBefore(anchor, null);
+            dropdown.insertBefore(li, null);
         });
+        Element.remove(prototypes);
+
+        var withDragDrop = initContainerDD(e);
 
         if (e.hasClassName("one-each")) {
             // does this container already has a ocnfigured instance of the specified descriptor ID?
@@ -647,12 +636,16 @@ var jenkinsRules = {
                 return Prototype.Selector.find(e.childElements(),"DIV.repeated-chunk[descriptorId=\""+id+"\"]")!=null;
             }
 
-            menuButton.getMenu().showEvent.subscribe(function() {
-                var items = menuButton.getMenu().getItems();
+            btn.onclick = function() {
+                var items = Prototype.Selector.select("LI A", dropdown);
                 for(i=0; i<items.length; i++) {
-                    items[i].cfg.setProperty("disabled",has(templates[i].descriptorId));
+                    if (has(items[i].getAttribute("data-descriptor-id"))) {
+                        Element.addClassName(items[i], "disabled");
+                    } else {
+                        Element.removeClassName(items[i], "disabled");
+                    }
                 }
-            });
+            };
         }
     },
 
@@ -672,7 +665,7 @@ var jenkinsRules = {
         ts_makeSortable(e);
     },
 
-    "TABLE.progress-bar" : function(e) {// sortable table
+    "TABLE.progress-bar" : function(e) {
         e.onclick = function() {
             var href = this.getAttribute("href");
             if(href!=null)      window.location = href;
@@ -746,32 +739,6 @@ var jenkinsRules = {
         });
     },
 
-    "INPUT.advancedButton" : function(e) {
-        makeButton(e,function(e) {
-            var link = e.target;
-            while(!Element.hasClassName(link,"advancedLink"))
-                link = link.parentNode;
-            link.style.display = "none"; // hide the button
-
-            var container = $(link).next().down(); // TABLE -> TBODY
-
-            var tr = link;
-            while (tr.tagName != "TR")
-                tr = tr.parentNode;
-
-            // move the contents of the advanced portion into the main table
-            var nameRef = tr.getAttribute("nameref");
-            while (container.lastChild != null) {
-                var row = container.lastChild;
-                if(nameRef!=null && row.getAttribute("nameref")==null)
-                    row.setAttribute("nameref",nameRef); // to handle inner rowSets, don't override existing values
-                tr.parentNode.insertBefore(row, $(tr).next());
-            }
-            layoutUpdateCallback.call();
-        });
-        e = null; // avoid memory leak
-    },
-
     "INPUT.expandButton" : function(e) {
         makeButton(e,function(e) {
             var link = e.target;
@@ -803,6 +770,7 @@ var jenkinsRules = {
         e = null; // avoid memory leak
     },
 
+// DEPRECATED: Use <label><input type="checkbox">text</label> syntax
 // <label> that doesn't use ID, so that it can be copied in <repeatable>
     "LABEL.attach-previous" : function(e) {
         e.onclick = function() {
@@ -1004,9 +972,25 @@ var jenkinsRules = {
         e = null; // avoid memory leak
     },
 
-    "INPUT.repeatable-delete" : function(e) {
-        makeButton(e,function(e) {
-            repeatableSupport.onDelete(e.target);
+    ".repeatable-delete" : function(e) {
+        var delHandler = function() {
+            repeatableSupport.onDelete(this);
+            return false;
+        };
+
+        if(e.tagName.toLowerCase() == "a") {
+            // In Chrome, Event.observe does not return false, and clicking the button makes the browser scroll to the top
+            e.onclick = delHandler;
+        } else {
+            // Backward compatibility. Some plugins uses <input type="button" class="repeatable-delete"/> instead of <f:repeatableDeleteButton/>
+            e = makeButton(e, delHandler);
+            Element.addClassName(e, "btn-warning");
+        }
+        Event.observe(e, "mouseover", function(ev) {
+            repeatableSupport.onBeginPreviewDelete(ev.target);
+        });
+        Event.observe(e, "mouseout", function(ev) {
+            repeatableSupport.onEndPreviewDelete(ev.target);
         });
         e = null; // avoid memory leak
     },
@@ -1094,17 +1078,15 @@ var jenkinsRules = {
         applyTooltip(e,e.getAttribute("tooltip"));
     },
 
-    "INPUT.submit-button" : function(e) {
-        makeButton(e);
-    },
-
+    // DEPRECATED: Use class="btn"
     "INPUT.yui-button" : function(e) {
+        Element.removeClassName(e, "yui-button");
         makeButton(e);
     },
 
     "TR.optional-block-start": function(e) { // see optionalBlock.jelly
         // set start.ref to checkbox in preparation of row-set-end processing
-        var checkbox = e.firstChild.firstChild;
+        var checkbox = e.firstChild.firstChild.firstChild;
         e.setAttribute("ref", checkbox.id = "cb"+(iota++));
     },
 
@@ -1183,9 +1165,9 @@ var jenkinsRules = {
              * Considers the visibility of the row group from the point of view of outside.
              * If you think of a row group like a logical DOM node, this is akin to its .style.display.
              */
-            makeOuterVisisble : function(b) {
+            makeOuterVisible : function(b, animate) {
                 this.outerVisible = b;
-                this.updateVisibility();
+                this.updateVisibility(animate);
             },
 
             /**
@@ -1194,22 +1176,44 @@ var jenkinsRules = {
              *
              * If you think of a row group like a logical DOM node, this is akin to its children's .style.display.
              */
-            makeInnerVisisble : function(b) {
+            makeInnerVisible : function(b, animate) {
                 this.innerVisible = b;
-                this.updateVisibility();
+                this.updateVisibility(animate);
+            },
+            toggleInnerVisible : function(animate) {
+                this.makeInnerVisible(!this.innerVisible, animate);
             },
 
             /**
              * Based on innerVisible and outerVisible, update the relevant rows' actual CSS display attribute.
              */
-            updateVisibility : function() {
-                var display = (this.outerVisible && this.innerVisible) ? "" : "none";
+            updateVisibility : function(animate) {
+                var displayCurrent = this.start.style.display != "none";
+                var display = (this.outerVisible && this.innerVisible);
                 for (var e=this.start; e!=this.end; e=$(e).next()) {
                     if (e.rowVisibilityGroup && e!=this.start) {
-                        e.rowVisibilityGroup.makeOuterVisisble(this.innerVisible);
+                        e.rowVisibilityGroup.makeOuterVisible(this.innerVisible, animate);
                         e = e.rowVisibilityGroup.end; // the above call updates visibility up to e.rowVisibilityGroup.end inclusive
-                    } else {
+                    } else if (!isRunAsTest && animate) {
+                        if(displayCurrent && !display) {
+                            var a = new YAHOO.util.Anim(e, {
+                                opacity: { to:0 },
+                                height: { to:0 }
+                            }, 0.2, YAHOO.util.Easing.easeIn);
+                            a.onComplete.subscribe(function() {
+                                this.getEl().style.display = "none";
+                            });
+                            a.animate();
+                        } else if (!displayCurrent && display) {
+                            $(e).setOpacity(0);
+                            e.style.display = "";
+                            new YAHOO.util.Anim(e, {
+                                opacity: { to:1 }
+                            }, 0.2, YAHOO.util.Easing.easeIn).animate();
+                        }
                         e.style.display = display;
+                    } else {
+                        e.style.display = display ? "" : "none";
                     }
                 }
                 layoutUpdateCallback.call();
@@ -1254,11 +1258,29 @@ var jenkinsRules = {
         applyNameRef(start,end,ref);
     },
 
+    "INPUT.advancedButton" : function(e) {
+        var findAdvancedBodyStart = function(el) {
+            var tr = findAncestor(el, "TR");
+            return $(tr).next();
+        };
+        Event.observe(e, "click", function(ev) {
+            var button = ev.target;
+            var start = findAdvancedBodyStart(button);
+            start.rowVisibilityGroup.toggleInnerVisible(true);
+            var text = button.value;
+            button.value = button.getAttribute("data-textToggled");
+            button.setAttribute("data-textToggled",text);
+            layoutUpdateCallback.call();
+        });
+        findAdvancedBodyStart(e).rowVisibilityGroup.makeInnerVisible(false); // advanced block should be hidden at first
+        e = null; // avoid memory leak
+    },
+
     "TR.optional-block-start ": function(e) { // see optionalBlock.jelly
         // this is suffixed by a pointless string so that two processing for optional-block-start
         // can sandwitch row-set-end
         // this requires "TR.row-set-end" to mark rows
-        var checkbox = e.firstChild.firstChild;
+        var checkbox = e.firstChild.firstChild.firstChild;
         updateOptionalBlock(checkbox,false);
     },
 
@@ -1346,7 +1368,7 @@ var jenkinsRules = {
                 var f = $(subForms[i]);
 
                 if (show)   renderOnDemand(f.next());
-                f.rowVisibilityGroup.makeInnerVisisble(show);
+                f.rowVisibilityGroup.makeInnerVisible(show);
 
                 // TODO: this is actually incorrect in the general case if nested vg uses field-disabled
                 // so far dropdownList doesn't create such a situation.
@@ -1641,7 +1663,9 @@ function applyNameRef(s,e,id) {
 
 // used by optionalBlock.jelly to update the form status
 //   @param c     checkbox element
-function updateOptionalBlock(c,scroll) {
+//   @param scroll   enable scrolling to the element
+//   @param animate  enable animation
+function updateOptionalBlock(c,scroll,animate) {
     // find the start TR
     var s = $(c);
     while(!s.hasClassName("optional-block-start"))
@@ -1654,14 +1678,16 @@ function updateOptionalBlock(c,scroll) {
 
     var checked = xor(c.checked,Element.hasClassName(c,"negative"));
 
-    vg.rowVisibilityGroup.makeInnerVisisble(checked);
+    vg.rowVisibilityGroup.makeInnerVisible(checked, animate);
 
     if(checked && scroll) {
         var D = YAHOO.util.Dom;
 
         var r = D.getRegion(s);
-        r = r.union(D.getRegion(vg.rowVisibilityGroup.end));
-        scrollIntoView(r);
+        if(r) { // if element is display:none, Dom.getRegion returns false
+            r = r.union(D.getRegion(vg.rowVisibilityGroup.end));
+            scrollIntoView(r);
+        }
     }
 
     if (c.name == 'hudson-tools-InstallSourceProperty') {
@@ -1799,16 +1825,13 @@ function refreshPart(id,url) {
 
                 Behaviour.applySubtree(node);
                 layoutUpdateCallback.call();
-
-                if(isRunAsTest) return;
-                refreshPart(id,url);
             }
         });
     };
     // if run as test, just do it once and do it now to make sure it's working,
     // but don't repeat.
     if(isRunAsTest) f();
-    else    window.setTimeout(f, 5000);
+    else    window.setInterval(f, 5000);
 }
 
 
@@ -1911,11 +1934,15 @@ var repeatableSupport = {
         nc.className = "repeated-chunk";
         nc.setAttribute("name",this.name);
         nc.innerHTML = this.blockHTML;
+        $(nc).setOpacity(0);
         this.insertionPoint.parentNode.insertBefore(nc, this.insertionPoint);
         if (this.withDragDrop) prepareDD(nc);
 
         Behaviour.applySubtree(nc,true);
         this.update();
+        new YAHOO.util.Anim(nc, {
+            opacity: { to:1 }
+        }, 0.2, YAHOO.util.Easing.easeIn).animate();
     },
 
     // update CSS classes associated with repeated items.
@@ -1953,6 +1980,17 @@ var repeatableSupport = {
                 p.tag.update();
         });
         a.animate();
+    },
+
+    // called when 'delete' button is mouseover-ed
+    onBeginPreviewDelete : function(n) {
+        n = findAncestorClass(n,"repeated-chunk");
+        Element.addClassName(n, "repeated-preview-delete");
+    },
+    // called when 'delete' button is mouseout-ed
+    onEndPreviewDelete : function(n) {
+        n = findAncestorClass(n,"repeated-chunk");
+        Element.removeClassName(n, "repeated-preview-delete");
     },
 
     // called when 'add' button is clicked
@@ -2675,8 +2713,6 @@ function applySafeRedirector(url) {
 
 // logic behind <f:validateButton />
 function validateButton(checkUrl,paramList,button) {
-  button = button._button;
-
   var parameters = {};
 
   paramList.split(',').each(function(name) {

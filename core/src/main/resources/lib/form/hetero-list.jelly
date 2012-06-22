@@ -67,33 +67,40 @@ THE SOFTWARE.
     <d:tag name="body">
       <table style="width:100%">
         <j:set var="help" value="${descriptor.helpFile}" />
-        <j:if test="${hasHeader}">
+        <j:choose>
+        <j:when test="${hasHeader}">
           <tr>
             <td colspan="3">
               <div class="dd-handle">
                 <b>${descriptor.displayName}</b>
               </div>
             </td>
-            <j:if test="${help!=null}">
-              <td>
+            <td class="no-wrap">
+              <j:if test="${help!=null}">
                 <a href="#" class="help-button" helpURL="${rootURL}${help}"><img src="${imagesURL}/16x16/help.png" alt="[help]" height="16" width="16"/></a>
-              </td>
-            </j:if>
+              </j:if>
+              <f:repeatableDeleteButton value="${attrs.deleteCaption}" />
+            </td>
           </tr>
           <!-- TODO: help support is unintuitive; people should be able to see help from drop-down menu -->
           <j:if test="${help!=null}">
             <f:helpArea />
           </j:if>
-        </j:if>
+        </j:when>
+        <j:otherwise>
+          <tr>
+            <td colspan="3">
+            </td>
+            <td>
+              <f:repeatableDeleteButton value="${attrs.deleteCaption}" />
+            </td>
+          </tr>
+        </j:otherwise>
+        </j:choose>
 
+        <input type="hidden" name="stapler-class" value="${descriptor.clazz.name}" />
         <d:invokeBody/>
 
-        <f:block>
-          <div align="right">
-            <input type="hidden" name="stapler-class" value="${descriptor.clazz.name}" />
-            <f:repeatableDeleteButton value="${attrs.deleteCaption}" />
-          </div>
-        </f:block>
       </table>
       <input type="hidden" name="kind" value="${descriptor.id}" />
     </d:tag>
@@ -130,8 +137,14 @@ THE SOFTWARE.
       </j:forEach>
     </div>
 
-    <div>
-      <input type="button" value="${attrs.addCaption?:'%Add'}" class="hetero-list-add" menualign="${attrs.menuAlign}"/>
+    <div class="btn-group">
+      <button class="btn btn-info dropdown-toggle hetero-list-add" data-toggle="dropdown" data-menualign="${attrs.menuAlign}">
+        ${attrs.addCaption?:'%Add'}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <!-- LI's will be inserted here -->
+      </ul>
     </div>
   </div>
 </j:jelly>

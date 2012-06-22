@@ -35,7 +35,7 @@ THE SOFTWARE.
   <div id="status" />
   
   <link rel="stylesheet" type="text/css" href="${resURL}/scripts/yui/assets/skins/sam/resize.css"/>
-  <script type="text/javascript" src="${resURL}/scripts/yui/resize/resize-min.js"></script>
+  <l:yui module="resize" />
   
   <script>
     <j:invokeStatic var="tz" className="java.util.TimeZone" method="getDefault"/>

@@ -30,7 +30,7 @@ THE SOFTWARE.
   <l:layout norefresh="true" title="${%Project Relationship}">
     <st:include page="sidepanel.jelly" />
     <l:main-panel>
-      <h1><img src="${imagesURL}/48x48/search.png" alt="" height="48" width="48"/>${%Project Relationship}</h1>
+      <l:pageHeader title="${%Project Relationship}" />
       <form action="projectRelationship" method="get">
         <table width="100%">
           <tr>
@@ -47,7 +47,7 @@ THE SOFTWARE.
           </tr>
           <tr>
             <td colspan="3" style="text-align:right">
-              <f:submit value="${%Compare}" />
+              <f:submit value="${%Compare}" clazz="btn-primary"/>
               <a href="projectRelationship-help"><img src="${imagesURL}/16x16/help.png" alt="[help]" height="16" width="16"/></a>
             </td>
           </tr>

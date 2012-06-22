@@ -41,7 +41,6 @@ THE SOFTWARE.
     <div class="listview-jobs">
       <j:forEach var="job" items="${it.ownerItemGroup.items}">
         <f:checkbox name="${job.name}" checked="${it.contains(job)}" title="${job.name}" />
-        <br/>
       </j:forEach>
     </div>
   </f:entry>

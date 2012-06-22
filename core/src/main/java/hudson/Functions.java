@@ -146,6 +146,13 @@ public class Functions {
         return o instanceof ModelObject;
     }
 
+    /**
+     * Returns true if we are running "mvn hudson-dev:run"
+     */
+    public static boolean inJenkinsDevRunMode() {
+        return Boolean.getBoolean("hudson.Main.development");
+    }
+    
     public static String xsDate(Calendar cal) {
         return Util.XS_DATETIME_FORMATTER.format(cal.getTime());
     }
@@ -1219,7 +1226,7 @@ public class Functions {
         for( int i=0; i<projectName.length(); i++ ) {
             char ch = projectName.charAt(i);
             if(('a'<=ch && ch<='z')
-            || ('z'<=ch && ch<='Z')
+            || ('A'<=ch && ch<='Z')
             || ('0'<=ch && ch<='9')
             || "-_.".indexOf(ch)>=0)
                 buf.append(ch);

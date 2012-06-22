@@ -31,6 +31,7 @@ THE SOFTWARE.
   <st:include page="sidepanel.jelly" />
   <f:breadcrumb-config-outline />
   <l:main-panel>
+    <l:pageHeader title="${%Configure System}" />
     <div class="behavior-loading">${%LOADING}</div>
     <f:form method="post" name="config" action="configSubmit">
       <j:set var="instance" value="${it}" />
@@ -63,7 +64,7 @@ THE SOFTWARE.
       <f:block>
         <div id="bottom-sticker" >
           <div class="bottom-sticker-inner">
-            <f:submit value="${%Save}" />
+            <f:submit value="${%Save}" clazz="btn-primary"/>
             <f:apply />
           </div>
         </div>

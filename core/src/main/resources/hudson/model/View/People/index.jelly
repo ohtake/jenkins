@@ -28,16 +28,15 @@ THE SOFTWARE.
     <st:include page="sidepanel.jelly" it="${it.parent}" />
     <t:setIconSize/>
     <l:main-panel>
-      <h1>
-        <img src="${imagesURL}/48x48/user.png" alt="" height="48" width="48"/>
-        ${%People}
-        <j:set var="viewType" value="${it.parent.class.simpleName}"/>
-        <j:set var="isAll" value="${viewType=='Hudson' or viewType=='AllView'}"/>
-        <j:if test="${!isAll}"> - ${it.parent.displayName}</j:if>
-      </h1>
+      <j:set var="viewType" value="${it.parent.class.simpleName}"/>
+      <j:set var="isAll" value="${viewType=='Hudson' or viewType=='AllView'}"/>
+      <j:set var="title" value="${%People}" />
+      <j:if test="${!isAll}">
+        <j:set var="title" value="${%People} - ${it.parent.displayName}" />
+      </j:if>
+      <l:pageHeader title="${title}" />
       <table class="sortable pane bigtable" id="people">
         <tr>
-          <th />
           <th>${%User Id}</th>
           <th>${%Name}</th>
           <th initialSortDir="up">${%Last Active}</th>
@@ -45,9 +44,11 @@ THE SOFTWARE.
         </tr>
         <j:forEach var="p" items="${it.users}">
           <tr>
-            <td><a href="${rootURL}/${p.user.url}/" class="model-link"><img src="${h.getUserAvatar(p.user,iconSize)}"
-                 alt="" class="icon${iconSize}"/></a></td>
-            <td><a href="${rootURL}/${p.user.url}/">${p.user.id}</a></td>
+            <td><a href="${rootURL}/${p.user.url}/" class="model-link">
+              <img src="${h.getUserAvatar(p.user,iconSize)}" alt="" class="icon${iconSize}"/>
+              <st:nbsp />
+              ${p.user.id}
+            </a></td>
             <td><a href="${rootURL}/${p.user.url}/">${p.user}</a></td>
             <td data="${p.timeSortKey}">${p.lastChangeTimeString}</td>
             <td><a href="${rootURL}/${p.project.url}" class="model-link">${p.project.fullDisplayName}</a></td>

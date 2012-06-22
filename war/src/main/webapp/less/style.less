@@ -1,0 +1,1006 @@
+/*
+ * The MIT License
+ * 
+ * Copyright (c) 2004-2010, Sun Microsystems, Inc., Kohsuke Kawaguchi, Daniel Dyer, Stephen Connolly
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+.small {
+    font-size: 10px;
+}
+
+.fixed-width {
+  font-family: Courier, monospace;
+}
+
+.center {
+  text-align: center;
+}
+
+.middle-align td, td.middle-align {
+  vertical-align: middle;
+}
+
+.center-align td, td.center-align {
+  text-align: center;
+}
+
+.no-wrap td, td.no-wrap {
+  white-space: nowrap;
+}
+
+#main-table {
+  margin-top: @baseLineHeight;
+  background: url(/images/jenkins.png) bottom left no-repeat;
+}
+
+#main-panel {
+}
+
+#side-panel {
+}
+
+#navigation {
+    min-height: 323px;
+    height: auto !important;
+    height: 323px;
+}
+
+#yui-logreader {
+    margin-top: 1em;
+}
+
+#tasks {
+  padding: 4px;
+}
+
+.skiplink {
+    position: absolute;
+    left: -20000px;
+}
+
+#shutdown-msg {
+    font-weight: bold;
+    color: @white;
+    background-color: @errorText;
+    text-align: center;
+    margin: 0 2em 0.5em;
+    padding: 0.5em;
+    .border-radius(0.5em);
+}
+
+a.lowkey:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a.lowkey:hover {
+  text-decoration: underline;
+  color: inherit;
+}
+
+a.lowkey:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  vertical-align: middle;
+  border: 0;
+}
+
+div.disabled {
+    .opacity(40);
+    background-color: @black;
+}
+
+table.tab {
+  border-collapse: collapse;
+}
+
+td.selected_tab {
+  vertical-align: middle;
+  border: 1px #090 solid;
+  background: #ffffff;
+}
+
+td.tab_filler {
+  background: #ffffff;
+  border-bottom: 1px #090 solid;
+}
+
+td.tab {
+  vertical-align: middle;
+  border: 1px #090 solid;
+  background: #f0f0f0;
+}
+
+.dashboard td {
+  padding: 4px;
+}
+
+pre.console {
+  overflow: auto;
+}
+
+.setting-leftspace {
+  width: 2em;
+}
+
+.setting-name {
+  white-space: nowrap;
+}
+
+.setting-main {
+  width: 100%; /* try to make this column as big as possible. */
+}
+.setting-help {
+  width: 16px;
+}
+
+.setting-input {
+  width: 100%;
+}
+
+.setting-description {
+  font-size: 0.8em;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* div that looks like a hyperlink */
+.pseudoLink {
+  cursor: pointer;
+}
+
+.advancedLink {
+  text-align: right;
+}
+
+.advancedBody {
+  display: none;
+}
+
+.scm_info {
+  width: 480px;
+}
+
+.build-row {
+  padding: 3px 4px 3px 4px;
+}
+
+.build-keep {
+  font-weight: bold;
+}
+
+.task-header {
+  display: block;
+  border-bottom: 1px #090 solid;
+  font-weight: bold;
+  font-size: 12pt;
+}
+
+.task {
+  white-space: nowrap;
+}
+
+.subtasks {
+  padding-left: 1em;
+}
+
+.task a img, .subtask a img {
+  margin: 2px 0.5em 2px 2px;
+}
+
+.main-table {
+}
+
+div.dashboard {
+  width: 100%;
+  clear:both;
+}
+
+.pane  {
+  margin-top: 4px;
+  white-space: nowrap;
+}
+.pane td {
+  padding: 4px 4px 3px 4px;
+}
+
+table.pane {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px @tableBorder solid;
+}
+table.pane > tbody > tr > td:last-child {
+  border-right: 1px @tableBorder solid;
+}
+
+td.pane {
+  border: 1px @tableBorder solid;
+  padding: 3px 4px 3px 4px;
+  vertical-align: middle;
+}
+
+td.pane-header {
+  border: 1px @tableBorder solid;
+  border-right: none;
+  border-left: none;
+  background-color: @tableBackgroundAccent;
+  font-weight: bold;
+}
+
+th.pane {
+  border: 1px @tableBorder solid;
+  font-weight: bold;
+}
+
+.bigtable tr {
+  border: 1px solid @tableBorder;
+  padding: 3px 4px 3px 4px;
+}
+
+.bigtable tr:hover {
+  background-color: @tableBackgroundHover;
+}
+
+.bigtable th {
+  font-weight: bold;
+  border: none;
+  background-color: @tableBackgroundAccent;
+  padding: 3px 4px 3px 4px;
+}
+
+.bigtable td {
+  vertical-align: middle;
+  padding: 3px 4px 3px 4px;
+}
+
+.smallfont {
+  font-size: 9px;
+}
+
+#foldertab {
+  padding: 4px 0;
+  margin-left: 0;
+  border-bottom: 1px solid #090;
+  font: bold 12px Verdana, sans-serif;
+}
+
+#foldertab li {
+  list-style: none;
+  margin: 0;
+  display: inline;
+}
+
+#foldertab li a {
+  padding: 4px 0.5em;
+  margin-left: 3px;
+  border: 1px solid #090;
+  border-bottom: none;
+  background: #090;
+  text-decoration: none;
+}
+
+#foldertab li a:link { color: white; }
+#foldertab li a:visited { color: white; }
+
+#foldertab li a:hover {
+  color: white;
+  background: #6c0;
+  border-color: #6c0;
+}
+
+#foldertab li a#current {
+  background: white;
+  border-bottom: 1px solid white;
+  color: black;
+}
+
+.changeset-message {
+  border: 1px solid #ccb;
+  background: #eed;
+  padding: 4px;
+  white-space: normal;
+}
+
+.disabledJob {
+  color: gray;
+}
+
+.spinner {
+  padding-left: 32px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  background-image: url("../images/spinner.gif");
+  background-repeat: no-repeat;
+  background-position: left;
+}
+
+.spinner-right {
+  padding-right: 32px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  background-image: url("../images/spinner.gif");
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+div.behavior-loading {
+    position: absolute; width: 80%; height:100%;
+    background-color: @grayLighter; text-align: center; font-size: 300%;
+    .opacity(50);
+}
+
+.bottom-sticker, #bottom-sticker {
+    width:  100%;   /* it needs to occupy the entire width or else the underlying content will see through */
+}
+.bottom-sticker-inner {
+    background:white;
+    padding:1em;
+}
+.bottom-sticker-edge {
+    height:16px;
+    background-image: url("../images/bottom-sticker-top-edge.png");
+    background-repeat: repeat-x;
+}
+
+.top-sticker, #top-sticker {
+    width:  100%;   /* it needs to occupy the entire width or else the underlying content will see through */
+    z-index: @zindexDropdown - 1; // -1 to fix JENKINS-13195
+}
+.top-sticker-inner {
+    background:white;
+    padding:1em;
+}
+.top-sticker-edge {
+    height:16px;
+    background-image: url("../images/top-sticker-bottom-edge.png");
+    background-repeat: repeat-x;
+}
+.top-sticker.noedge > .top-sticker-edge {
+    display: none;
+}
+
+.top-sticker.noedge > .top-sticker-inner {
+    padding:0;
+}
+
+/* ======================== error/warning message (mainly in the form.) Use them on block elements ======================== */
+.jenkins-alert-block(@image) {
+    .alert;
+    .alert-block;
+    margin-bottom: 2px;
+    padding: 2px 20px;
+    min-height: 16px;
+    background-image: url("../images/16x16/@{image}.png");
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+
+.error {
+    .jenkins-alert-block("error");
+    .alert-error;
+}
+
+.error-inline {
+    color: @errorText;
+    font-weight: bold;
+}
+
+.warning {
+    .jenkins-alert-block("warning");
+}
+
+.warning-inline {
+    color: @warningText;
+    font-weight: bold;
+}
+
+.info {
+    .jenkins-alert-block("go-next"); // TODO: get a better icon
+    .alert-info;
+}
+
+.icon16x16 {
+    width: 16px;
+    height: 16px;
+}
+
+.icon24x24 {
+    width: 24px;
+    height: 24px;
+}
+
+.icon32x32 {
+    width: 32px;
+    height: 32px;
+}
+
+/* ====================== help ===================================== */
+
+.help {
+  display: none;  /* hidden until loaded */
+  border: 1px @tableBorder solid;
+  background-color: @tableBackgroundHover;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.help .from-plugin {
+    text-align: right;
+    color: @gray;
+}
+
+.help-area {
+  /* this marker class is used by JavaScript to locate the area to display help text. */
+}
+
+
+/* ====================== project view tab bar ===================================== */
+#viewList {
+  border: none;
+  margin-bottom: 0px;
+  width: 100%;
+  white-space: nowrap;
+}
+#viewList td {
+  padding: 0px;
+}
+#viewList td.inactive {
+  border: 1px @tableBorder solid;
+}
+#viewList td.inactive:hover {
+  background-color: @grayLight;
+}
+#viewList td.inactive a {
+  text-decoration: none;
+  color: @grayDark
+}
+#viewList td.noleft {
+  border-left: none;
+}
+#viewList td.noright {
+  border-right: none;
+}
+#viewList td.active {
+  border: 1px @tableBorder solid;
+  border-bottom-color: @tableBackgroundAccent;
+  padding: 0.5em;
+  vertical-align:middle;
+  background-color: @tableBackgroundAccent;
+  font-weight: bold;
+  white-space: nowrap;
+}
+#viewList td.filler {
+  border: none;
+  border-bottom: 1px @tableBorder solid;
+  width: 100%;
+  text-align: right;
+}
+#viewList a {
+  display: block;
+  padding: 0.5em;
+  white-space: nowrap;
+}
+
+#projectstatus th {
+  text-align: left;
+}
+
+/* ============================ list view entries ======================== */
+div.listview-jobs {
+  max-height:300px;
+  overflow:auto;
+}
+
+/* ============================ parameters form ========================== */
+
+table.parameters {
+  border-collapse: collapse;
+}
+
+table.parameters > tbody > tr:first-child > td {
+  padding-top: 4px;
+}
+
+table.parameters .setting-description {
+  padding-bottom: 4px;
+}
+
+table.parameters > tbody:hover {
+  background-color: @tableBackgroundHover;
+}
+
+/* ============================ health report hover ========================== */
+
+.healthReport a {
+    text-decoration: none;
+}
+
+.healthReport div.healthReportDetails {
+    display: none;
+    .box-shadow(1px 1px 3px rgba(0,0,0,.25));
+}
+
+.healthReport:hover, .healthReport.hover { /* fix IE6 bug with :hover */
+    background: transparent;
+}
+
+.healthReport:hover div.healthReportDetails, .healthReport.hover div.healthReportDetails {
+    display: block;
+    position: absolute;
+    background-color: @infoBackground;
+    border: 1px @tableBorder solid;
+    margin-left: 32px; /* move it across a bit */
+    z-index: @zindexPopover;
+}
+
+.healthReport div.healthReportDetails table {
+    border-collapse: collapse;
+    width: 450px; /* fix IE bug with width */
+}
+
+/* ========================= build history ========================= */
+#buildHistory .healthReport {
+    display: inline;
+    margin-right: 1em;
+}
+
+#buildHistory tr.no-wrap td.middle-align {
+    padding: 0;
+}
+
+#buildHistory td.desc {
+    padding: 0;
+    white-space: normal;
+}
+
+/* ========================= editable combobox style ========================= */
+.comboBoxList {
+  border: 1px @black solid;
+  overflow: visible;
+  color: MenuText;
+  background-color: Menu;
+}
+.comboBoxSelectedItem {
+  background-color: Highlight;
+  color: HighlightText;
+}
+.combobox-values {
+  display: none;
+}
+
+
+/* ========================= directory tree ========================= */
+.parentPath {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.dirTree li {
+  list-style: none;
+}
+
+.dirTree .rootIcon {
+  margin-right: 1em;
+}
+
+table.fileList {
+  margin-left: 2em;
+  padding: 0;
+}
+
+table.fileList td {
+  padding: 0;
+}
+
+table.fileList td.fileSize {
+  padding-left: 2em;
+  text-align: right;
+  color: @grayLight;
+}
+
+/* ========================= test result ========================= */
+.result-passed {
+  color: @blue;
+}
+
+.result-skipped {
+  color: @yellow;
+}
+
+.result-fixed {
+  .result-passed;
+  font-weight: bold;
+}
+
+.result-failed {
+  color: @pink;
+}
+
+.result-regression {
+  .result-failed;
+  font-weight: bold;
+}
+.test-trend-caption {
+  .jenkinsHeading();
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* ========================= sortable table ========================= */
+table.sortable a.sortheader {
+  text-decoration: none;
+  color: @black;
+  display: block;
+}
+table.sortable span.sortarrow {
+  color: @black;
+  text-decoration: none;
+}
+
+/* ========================= fingerprint ========================= */
+
+.md5sum {
+  text-align: right;
+}
+
+.fingerprint-summary-header {
+  font-size: 1.2em;
+  vertical-align: middle;
+}
+
+table.fingerprint-in-build td {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+/* ========================= plugin manager ========================= */
+
+#plugins {
+  margin-top: 0;
+  border-top: none;
+}
+
+#pluginsAdv tr:hover {
+  background-color: inherit;
+}
+
+#plugins tr.already-upgraded {
+  background-color: @grayLighter;
+}
+
+
+/* ========================= repeatable elements ========================= */
+
+.repeated-chunk .show-if-last      { visibility: hidden; }
+.repeated-chunk.last .show-if-last { visibility: visible; }
+
+.repeated-chunk .show-if-not-last      { visibility: visible; }
+.repeated-chunk.last .show-if-not-last { visibility: hidden; }
+
+.repeated-chunk .show-if-not-only      { visibility: visible; }
+.repeated-chunk.only .show-if-not-only { visibility: hidden; }
+
+/* == nested erpeatable elements / 2 deep == */
+.repeated-chunk .repeated-chunk .show-if-last      { visibility: hidden; }
+.repeated-chunk .repeated-chunk.last .show-if-last { visibility: visible; }
+
+.repeated-chunk .repeated-chunk .show-if-not-last      { visibility: visible; }
+.repeated-chunk .repeated-chunk.last .show-if-not-last { visibility: hidden; }
+
+.repeated-chunk .repeated-chunk .show-if-not-only      { visibility: visible; }
+.repeated-chunk .repeated-chunk.only .show-if-not-only { visibility: hidden; }
+
+/* == nested erpeatable elements / 3 deep == */
+.repeated-chunk .repeated-chunk .repeated-chunk .show-if-last      { visibility: hidden; }
+.repeated-chunk .repeated-chunk .repeated-chunk.last .show-if-last { visibility: visible; }
+
+.repeated-chunk .repeated-chunk .repeated-chunk .show-if-not-last      { visibility: visible; }
+.repeated-chunk .repeated-chunk .repeated-chunk.last .show-if-not-last { visibility: hidden; }
+
+.repeated-chunk .repeated-chunk .repeated-chunk .show-if-not-only      { visibility: visible; }
+.repeated-chunk .repeated-chunk .repeated-chunk.only .show-if-not-only { visibility: hidden; }
+
+.repeated-preview-delete {
+  .opacity(50) !important; // !important to overwrite inline style used by YUI
+  background-color: @inputDisabledBackground;
+  .repeatable-delete:hover {
+    .opacity(100);
+  }
+}
+
+/*
+    <DIV>s marked with to-be-removed is used in conjunction with repetable.jelly and hetero-list.jelly
+    and represents a master copy that gets pulled out from HTML, then inserted later upon demand multiple times
+    when the user does "Add".
+*/
+div.to-be-removed { display: none; }
+
+/* ========================= Other form related CSS ========================= */
+
+.row-set-end { display: none; }
+
+/* ========================= Yahoo UI style adjustments ========================= */
+.ygtvlabel, .ygtvlabel:link, .ygtvlabel:visited, .ygtvlabel:hover {
+	color: inherit;
+}
+
+div.yahooTree td {
+  vertical-align: middle;
+}
+
+.yui-tt {
+  border: 1px solid black !important;
+  background-color: @white !important;
+  padding: 2px !important;
+  font-family: inherit !important;
+  color: inherit !important;
+  .box-shadow(1px 1px 3px rgba(0,0,0,.25));
+}
+
+.yui-skin-sam .yui-tt .bd {
+  border: none !important;
+  background-color: @white !important;
+}
+/* ========================= search box at the top-right of the page ========================= */
+
+#search-box {
+  padding-left: 20px;
+  width: 15em;
+  position: static;
+}
+
+#search-box.defaulted {
+  color: @gray;
+}
+
+#search-box-completion {
+  text-align: left;
+  width:25em;
+  position: absolute;
+  z-index: @zindexDropdown;
+}
+
+#search-box-completion .yui-ac-content {
+  color: @black;
+  border: 1px solid black;
+  width:25em;
+  background-color: @white;
+  overflow: hidden;
+  .box-shadow(1px 1px 3px rgba(0,0,0,.25));
+}
+
+#search-box-completion ul {
+  padding: 0 0;
+  width: 100%;
+  margin: 0 0;
+  list-style: none;
+}
+#search-box-completion li {
+  padding-left:20px;
+  white-space:nowrap;
+}
+#search-box-completion LI.yui-ac-highlight {
+  background: @blue;
+}
+
+#search-box-minWidth {
+  position:absolute;
+  visibility: hidden;
+  width:15em;
+}
+
+#search-box-sizer {
+  position:absolute;
+  visibility: hidden;
+}
+
+
+/* ========================= resizable text area ========================= */
+
+textarea {
+    margin-bottom: 0;
+}
+
+div.textarea-handle {
+    height: 5px;
+    font-size: 0;
+    background: @tableBackgroundAccent url(../images/textarea-handle.gif) no-repeat 50% 1px;
+    border: 1px @tableBorder solid;
+    border-top: none;
+    cursor: s-resize;
+}
+textarea.rich-editor {
+  visibility: hidden;
+}
+
+/* ========================= hover notification ========================= */
+
+#hoverNotification {
+    visibility:hidden;
+    background-color: @white;
+    border: 1px @black solid;
+    padding: 0.5em;
+}
+
+/* ========================= D&D support in heterogenous/repeatable lists = */
+
+.hetero-list-container .dd-handle, .repeated-container .dd-handle {
+    cursor: move;
+    background-image: url(../images/grip.png);
+    background-repeat: repeat-y;
+    padding-left: 20px;
+}
+
+/* ========================= plugin update center ========================= */
+
+#plugins .excerpt {
+    white-space: normal;
+    margin-top: 0.5em;
+    padding-left: 2em;
+    color: @grayLight;
+}
+
+#plugins .compatWarning {
+    white-space: normal;
+    margin-top: 0.5em;
+    padding-left: 2em;
+    color: @warningText;
+}
+
+/* ========================= progress bar ========================= */
+
+table.progress-bar {
+  border-collapse: collapse;
+  border: 1px solid @blue;
+  height: 6px;
+  width: 100px;
+  clear: none;
+}
+
+table.progress-bar tr.unknown {
+    background-image:url(../images/progress-unknown.gif);
+}
+
+td.progress-bar-done {
+  background-color: @blue;
+}
+
+td.progress-bar-left {
+  background-color: @white;
+}
+
+table.progress-bar.red {
+  border: 1px solid @red;
+}
+
+table.progress-bar.red tr.unknown {
+    background-image:url(../images/progress-unknown-red.gif);
+}
+table.progress-bar.red td.progress-bar-done {
+  background-color: @red;
+}
+
+/* ========================= notification bar ========================= */
+#notification-bar {
+    width:100%;
+    position:fixed;
+    text-align:center;
+    left:0px;
+    font-size: 2em;
+    z-index:@zindexModal;
+    border-bottom: 1px @black solid;
+}
+
+/* ========================= YUI dialog ========================= */
+
+.dialog .hd {
+    font-size: 12px !important;
+}
+/* discovered this margin fix by a trial and error. This can very well be a totally wrong fix, or perhaps updating
+ to the latest YUI will fix this? */
+.dialog .hd {
+    margin: 0 !important;
+}
+
+.dialog .bd {
+    margin: 0 !important;
+}
+
+.dialog .ft {
+    margin: 0 !important;
+}
+
+/* ========================= tags/labels ================== */
+/* tag0 is the least important tag in a tag cloud */
+.tag0 { font-size: 1.00em; }
+.tag1 { font-size: 1.10em; }
+.tag2 { font-size: 1.20em; }
+.tag3 { font-size: 1.30em; }
+.tag4 { font-size: 1.40em; }
+.tag5 { font-size: 1.50em; }
+.tag6 { font-size: 1.60em; }
+.tag7 { font-size: 1.70em; }
+.tag8 { font-size: 1.80em; }
+.tag9 { font-size: 1.90em; }
+
+/* ========================= textarea.jelly ================== */
+
+.textarea-preview-container {
+    text-align:left;
+}
+.textarea-preview {
+    background-color: @tableBackgroundHover;
+    padding: 0.5em;
+}
+
+/* ========================= matrix configuration table ================== */
+#configuration-matrix {
+	border: 1px @tableBorder solid;
+	border-collapse: collapse;
+}
+
+tr.matrix-row {
+	background: @tableBackgroundAccent;
+	font-weight: bold;
+}
+
+td.matrix-header {
+	border: 1px @tableBorder solid;
+	padding: 3px;
+}
+
+td#matrix-title {
+	padding: 3px;
+}
+
+td.matrix-leftcolumn {
+	border: 1px @tableBorder solid;
+	font-weight: bold;
+	background: @tableBackgroundAccent;
+	padding: 3px;
+}
+
+td.matrix-cell {
+	border: 1px @tableBorder solid;
+	text-align: center;
+}
+
+/* == Breadcrumb inpage navigation ========================================= */
+
+#breadcrumbs #inpage-nav a {
+    background: none;
+}
+
+/* == Computer table  ====================================================== */
+
+#computers td {
+    padding-right: 1em;
+}
+
+/* == Login Form  ========================================================== */
+
+#login .form-actions span {
+    padding-left: 20px;
+}
