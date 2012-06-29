@@ -673,7 +673,7 @@ var jenkinsRules = {
         e = null; // avoid memory leak
     },
 
-    "INPUT.applyButton":function (e) {
+    "INPUT.apply-button":function (e) {
         var id;
         var containerId = "container"+(iota++);
 
@@ -739,7 +739,7 @@ var jenkinsRules = {
         });
     },
 
-    "INPUT.expandButton" : function(e) {
+    "INPUT.expand-button" : function(e) {
         makeButton(e,function(e) {
             var link = e.target;
             while(!Element.hasClassName(link,"advancedLink"))
@@ -1258,7 +1258,7 @@ var jenkinsRules = {
         applyNameRef(start,end,ref);
     },
 
-    "INPUT.advancedButton" : function(e) {
+    "INPUT.advanced-button" : function(e) {
         var findAdvancedBodyStart = function(el) {
             var tr = findAncestor(el, "TR");
             return $(tr).next();

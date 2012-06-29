@@ -138,7 +138,7 @@ THE SOFTWARE.
     </div>
 
     <div class="btn-group">
-      <button class="btn btn-info dropdown-toggle hetero-list-add" data-toggle="dropdown" data-menualign="${attrs.menuAlign}">
+      <button class="btn btn-info dropdown-toggle hetero-list-add" data-toggle="dropdown" data-menualign="${attrs.menuAlign}" suffix="${attrs.name}">
         ${attrs.addCaption?:'%Add'}
         <span class="caret"></span>
       </button>

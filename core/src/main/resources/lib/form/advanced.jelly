@@ -46,7 +46,7 @@ THE SOFTWARE.
 	<tr><td/><td/>
 	  <td>
 	    <div class="advancedLink" style="${attrs.align!=null?('text-align:'+attrs.align):''}">
-	      <input type="button" value="${attrs.title?:'%Advanced'}..." class="advancedButton btn btn-info" data-textToggled="${attrs.titleHide?:'%Hide Advanced'}" />
+	      <input type="button" value="${attrs.title?:'%Advanced'}..." class="advanced-button advancedButton btn btn-info" data-textToggled="${attrs.titleHide?:'%Hide Advanced'}" /><!-- advancedButton is legacy -->
 	    </div>
 	  </td>
 	</tr>
